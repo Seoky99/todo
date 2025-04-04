@@ -5,10 +5,10 @@ class DOMLogic {
     }
 
     renderSidebar(projects, setProjectID) {
-        const sidebar = document.querySelector("div.sidebar ul");
+        const sidebar = document.querySelector("div.sidebar div");
+        sidebar.classList = "project-container";
         sidebar.replaceChildren();
         Object.values(projects).forEach( project => {
-            const li = document.createElement("li");
             const projectTab = document.createElement("button");
             
             projectTab.innerHTML = project.name; 
@@ -81,10 +81,13 @@ class DOMLogic {
  
         projButton.addEventListener("click", (e) => {
             const inputValue = document.querySelector("form #proj-name").value;
-            e.preventDefault();
 
-            handleAddProject(inputValue);
-            this.renderSidebar(projects, setProjectID);
+            if (!(inputValue.trim() === '')) {
+                console.log("here");
+                e.preventDefault();
+                handleAddProject(inputValue);
+                this.renderSidebar(projects, setProjectID);
+            }
         })
     }
 }

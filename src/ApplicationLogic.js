@@ -54,8 +54,38 @@ class ApplicationLogic {
         return this._projects;
     }
 
-    loadFromStorage() {
+    storeToStorage() {
+        localStorage.setItem("projects", JSON.stringify(this._projects));
+        localStorage.setItem("currProjectID", this._currProjectID);
+        localStorage.setItem("currTodoID", this._currTodoID);
+    }
 
+    loadFromStorage() {
+        let projects = JSON.parse(localStorage.getItem("projects"));
+        let newProjects = {}; 
+
+        for (let projectKey in projects) {
+
+            let { _id:id, _name:name, _todoList:todoList } = projects[projectKey];
+            let newProject = new Project(id, name);
+
+            for (let todo of todoList) {
+                let { _id:id, _title:title, _description:description, _dueDate:dueDate, _priority:priority, _checked:checked } = todo; 
+
+                let newTodo = new Todo(id, title, description, priority, dueDate, checked); 
+                newProject.addTodo(newTodo);
+            }
+
+            newProjects[id] = newProject; 
+        }
+        
+        this._projects = newProjects; 
+        this._currProjectID = localStorage.getItem("currProjectID");
+        this._currTodoID = localStorage.getItem("currTodoID"); 
+    }
+
+    deleteStorage() {
+        localStorage.clear();
     }
 }
 
