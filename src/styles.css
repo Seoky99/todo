@@ -7,7 +7,7 @@ body {
     height: 100vh;
     background-color: black;
     display: grid;
-    grid-template: 1fr 5fr / 1fr 6fr;
+    grid-template: 1fr 4fr / 1fr 4fr;
 }
 
 .header {
@@ -22,5 +22,55 @@ body {
 }
 
 .main-content {
+    padding: 5%;
     background-color: purple;
+}   
+
+#content-box {
+    display: flex; 
+    flex-direction: column;
+    gap: 20px;
+}
+
+.todo {
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 5px;
+    align-items: center;
+
+    background-color: red;
+
+    & .name {
+        font-size: 30px;
+        margin-right: auto;
+    }
+
+    & .dueDate {
+        font-size: 30px;
+    }
+
+    & button {
+        padding: 30px;
+    }
+
+    &.high {
+        border-left: 30px solid red;
+    }
+
+    &.medium {
+        border-left: 30px solid yellow;
+    }
+
+    &.low {
+        border-left: 30px solid green;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    justify-content: center;
 }

@@ -15,11 +15,19 @@ class ApplicationLogic {
     /*
         Creates TODO with given characteristic in currentProject 
     */
-    createTodo(id, title, description, priority, dueDate, checked) {
-        let todo = new Todo(id, title, description, priority, dueDate, checked);
+    createTodo(title, description, priority, dueDate, checked) {
+        let todo = new Todo(this._currTodoID, title, description, priority, dueDate, checked);
         this._currTodoID++; 
 
         this._projects[this._selectedProjectID].addTodo(todo);
+        console.log(todo);
+    }
+
+    formSetUp(form, submitButton) {
+        const formData = Object.fromEntries(new FormData(form, submitButton));
+
+        let { title, description, date, priority } = formData; 
+        this.createTodo(title, description, priority, date, false);
     }
 
     createProject(name) {
