@@ -1,7 +1,7 @@
 class Project {
 
     constructor(id, name) {
-        this.id = id;
+        this._id = id;
         this._name = name; 
         this._todoList = [];
     }
@@ -12,6 +12,10 @@ class Project {
 
     get todoList() {
         return this._todoList;
+    }
+
+    get id() {
+        return this._id;
     }
 
     addTodo(todo) {

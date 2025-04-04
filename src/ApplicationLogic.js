@@ -20,7 +20,6 @@ class ApplicationLogic {
         this._currTodoID++; 
 
         this._projects[this._selectedProjectID].addTodo(todo);
-        console.log(todo);
     }
 
     formSetUp(form, submitButton) {
@@ -36,8 +35,12 @@ class ApplicationLogic {
         this._currProjectID++;  
     }
 
-    get currentProjectID() {
-        return this._currentProject; 
+    getCurrentProjectID() {
+        return this._projects[this._selectedProjectID]; 
+    }
+
+    setCurrentProjectID(val) {
+        this._selectedProjectID = val;
     }
 
     /*

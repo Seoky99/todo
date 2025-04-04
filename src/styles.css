@@ -68,9 +68,14 @@ body {
     }
 }
 
-form {
+.add-form {
     display: flex;
     flex-direction: column;
     width: 300px;
     justify-content: center;
+}
+
+.proj-form {
+    background-color: red;
+    padding: 5px;
 }

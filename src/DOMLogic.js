@@ -4,14 +4,18 @@ class DOMLogic {
 
     }
 
-    renderSidebar(projects) {
+    renderSidebar(projects, setProjectID) {
         const sidebar = document.querySelector("div.sidebar ul");
+        sidebar.replaceChildren();
         Object.values(projects).forEach( project => {
             const li = document.createElement("li");
             const projectTab = document.createElement("button");
             
             projectTab.innerHTML = project.name; 
-            projectTab.addEventListener("click", e => this.renderContent(project)); 
+            projectTab.addEventListener("click", e => {
+                this.renderContent(project)
+                setProjectID(project.id);
+            }); 
 
             sidebar.appendChild(projectTab);
         }
@@ -52,12 +56,12 @@ class DOMLogic {
         return todoCreated; 
     }
 
-    setUpTodoButton(formSetUp, generateTodo) {
+    setUpTodoButton(formSetUp, currentProjectID) {
         const dialog = document.querySelector("#todoDialog");
         const todoButton = document.querySelector("#add");
         const submitButton = document.querySelector("#form-confirm");
         const cancelButton = document.querySelector("#form-cancel");
-        const form = document.querySelector("form");
+        const form = document.querySelector(".add-form");
 
         todoButton.addEventListener("click", e => dialog.showModal());
         cancelButton.addEventListener("click", e => {
@@ -67,13 +71,22 @@ class DOMLogic {
         submitButton.addEventListener("click", e => {
             e.preventDefault();
             formSetUp(form, submitButton); 
+            dialog.close();
+            this.renderContent(currentProjectID());
         });
     } 
 
-    /*addTodoToContent(todo) {
-        const contentBox = document.querySelector("#content-box"); 
-    }*/
+    setUpProjectButton(handleAddProject, projects, setProjectID) {
+        const projButton = document.querySelector("#project-button");
+ 
+        projButton.addEventListener("click", (e) => {
+            const inputValue = document.querySelector("form #proj-name").value;
+            e.preventDefault();
 
+            handleAddProject(inputValue);
+            this.renderSidebar(projects, setProjectID);
+        })
+    }
 }
 
 export default DOMLogic; 
