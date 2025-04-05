@@ -4,7 +4,7 @@ class DOMLogic {
 
     }
 
-    renderSidebar(projects, getProjectID, setProjectID) {
+    renderSidebar(projects, getProjectID, setProjectID, todoHandlers) {
         const sidebar = document.querySelector("div.sidebar div");
         sidebar.classList = "project-container";
         sidebar.replaceChildren();
@@ -19,14 +19,13 @@ class DOMLogic {
             projectTab.innerHTML = project.name; 
             projectTab.addEventListener("click", e => {
 
-                //if not my tab remove the active tab 
                 if (project.id !== getProjectID()) {
                     const activeTab = document.querySelector(".tab.active");
                     activeTab.classList.remove("active");
                     projectTab.classList.add("active");
                 }
 
-                this.renderContent(project)
+                this.renderContent(project, todoHandlers);
                 setProjectID(project.id);
             }); 
 
@@ -35,7 +34,7 @@ class DOMLogic {
         )
     }
 
-    renderContent(project) {
+    renderContent(project, todoHandlers) {
 
         const projTitle = document.querySelector("#proj-title");
         projTitle.innerHTML = project.name;
@@ -44,11 +43,11 @@ class DOMLogic {
         contentBox.replaceChildren();
 
         project.todoList.forEach(todo => {
-            contentBox.appendChild(this.createTodo(todo));
+            contentBox.appendChild(this.createTodo(project, todo, todoHandlers));
         })
     }
 
-    createTodo(todo) {
+    createTodo(project, todo, todoHandlers) {
         const todoCreated = document.createElement("div");
         todoCreated.classList = `todo ${todo.priority}`;
 
@@ -64,16 +63,26 @@ class DOMLogic {
 
         const editButton = document.createElement("button");
         editButton.classList = "edit";
+        editButton.classList.add("material-symbols-outlined");
+        editButton.innerHTML = "edit";
         todoCreated.appendChild(editButton);
         
         const delButton = document.createElement("button");
         delButton.classList = "del";
+        delButton.classList.add("material-symbols-outlined");
+        delButton.innerHTML = "delete";
+
+        delButton.addEventListener("click", (e) => {
+            todoHandlers().delete(todo.id); 
+            this.renderContent(project, todoHandlers);
+        });
+
         todoCreated.appendChild(delButton);
 
         return todoCreated; 
     }
 
-    setUpTodoButton(formSetUp, currentProjectID) {
+    setUpTodoButton(formSetUp, currentProjectID, todoHandlers) {
         const dialog = document.querySelector("#todoDialog");
         const todoButton = document.querySelector("#add");
         const submitButton = document.querySelector("#form-confirm");
@@ -89,11 +98,11 @@ class DOMLogic {
             e.preventDefault();
             formSetUp(form, submitButton); 
             dialog.close();
-            this.renderContent(currentProjectID());
+            this.renderContent(currentProjectID(), todoHandlers);
         });
     } 
 
-    setUpProjectButton(handleAddProject, projects, getProjectID, setProjectID) {
+    setUpProjectButton(handleAddProject, projects, getProjectID, setProjectID, todoHandlers) {
         const projButton = document.querySelector("#project-button");
  
         projButton.addEventListener("click", (e) => {
@@ -102,7 +111,7 @@ class DOMLogic {
             if (!(inputValue.trim() === '')) {
                 e.preventDefault();
                 handleAddProject(inputValue);
-                this.renderSidebar(projects, getProjectID, setProjectID);
+                this.renderSidebar(projects, getProjectID, setProjectID, todoHandlers);
             }
         })
     }

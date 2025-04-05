@@ -22,6 +22,17 @@ class ApplicationLogic {
         this._projects[this._selectedProjectID].addTodo(todo);
     }
 
+    deleteTodo(id) {
+        console.log(this._projects);
+        this._projects[this._selectedProjectID].removeTodoByID(id);
+        console.log(this._projects);
+    }
+
+    todoHandlers() {
+        //edit, delete, toggle 
+        return { delete: this.deleteTodo.bind(this) };
+    }
+
     formSetUp(form, submitButton) {
         const formData = Object.fromEntries(new FormData(form, submitButton));
 
@@ -66,8 +77,6 @@ class ApplicationLogic {
 
     loadFromStorage() {
 
-        //intialize active tab
-
         if (localStorage.getItem("projects") !== null) {
 
         let projects = JSON.parse(localStorage.getItem("projects"));
@@ -91,12 +100,7 @@ class ApplicationLogic {
         this._projects = newProjects; 
         this._currProjectID = localStorage.getItem("currProjectID");
         this._currTodoID = localStorage.getItem("currTodoID"); 
-
-
         } else {
-
-            //make this the active tab
-
             this.createProject("My First Project!");
         }
     }
