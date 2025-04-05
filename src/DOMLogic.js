@@ -4,15 +4,28 @@ class DOMLogic {
 
     }
 
-    renderSidebar(projects, setProjectID) {
+    renderSidebar(projects, getProjectID, setProjectID) {
         const sidebar = document.querySelector("div.sidebar div");
         sidebar.classList = "project-container";
         sidebar.replaceChildren();
         Object.values(projects).forEach( project => {
             const projectTab = document.createElement("button");
+            projectTab.classList.add("tab");
+
+            if (project.id === getProjectID()) {
+                projectTab.classList.add("active");
+            }
             
             projectTab.innerHTML = project.name; 
             projectTab.addEventListener("click", e => {
+
+                //if not my tab remove the active tab 
+                if (project.id !== getProjectID()) {
+                    const activeTab = document.querySelector(".tab.active");
+                    activeTab.classList.remove("active");
+                    projectTab.classList.add("active");
+                }
+
                 this.renderContent(project)
                 setProjectID(project.id);
             }); 
@@ -23,6 +36,10 @@ class DOMLogic {
     }
 
     renderContent(project) {
+
+        const projTitle = document.querySelector("#proj-title");
+        projTitle.innerHTML = project.name;
+
         const contentBox = document.querySelector("#content-box");
         contentBox.replaceChildren();
 
@@ -76,17 +93,16 @@ class DOMLogic {
         });
     } 
 
-    setUpProjectButton(handleAddProject, projects, setProjectID) {
+    setUpProjectButton(handleAddProject, projects, getProjectID, setProjectID) {
         const projButton = document.querySelector("#project-button");
  
         projButton.addEventListener("click", (e) => {
             const inputValue = document.querySelector("form #proj-name").value;
 
             if (!(inputValue.trim() === '')) {
-                console.log("here");
                 e.preventDefault();
                 handleAddProject(inputValue);
-                this.renderSidebar(projects, setProjectID);
+                this.renderSidebar(projects, getProjectID, setProjectID);
             }
         })
     }

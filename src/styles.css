@@ -29,6 +29,15 @@ body {
     gap: 20px;
 }
 
+.tab {
+    padding: 10px;
+    font-size: 1.2rem;
+
+    &.active{
+      background-color: lightgrey;  
+    }
+}
+
 .main-content {
     padding: 5%;
     background-color: purple;

@@ -5,10 +5,10 @@ class ApplicationLogic {
 
     constructor() {
         this._selectedProjectID = 0;
-        let defaultProject = new Project(0, "default");
-        this._projects = { 0: defaultProject };
+        
+        this._projects = {}; 
 
-        this._currProjectID = 1; 
+        this._currProjectID = 0; 
         this._currTodoID = 0; 
     }
 
@@ -35,9 +35,13 @@ class ApplicationLogic {
         this._currProjectID++;  
     }
 
-    getCurrentProjectID() {
+    getCurrentProject() {
         return this._projects[this._selectedProjectID]; 
     }
+
+    getCurrentProjectID() {
+        return this._selectedProjectID;
+    } 
 
     setCurrentProjectID(val) {
         this._selectedProjectID = val;
@@ -61,6 +65,11 @@ class ApplicationLogic {
     }
 
     loadFromStorage() {
+
+        //intialize active tab
+
+        if (localStorage.getItem("projects") !== null) {
+
         let projects = JSON.parse(localStorage.getItem("projects"));
         let newProjects = {}; 
 
@@ -82,6 +91,14 @@ class ApplicationLogic {
         this._projects = newProjects; 
         this._currProjectID = localStorage.getItem("currProjectID");
         this._currTodoID = localStorage.getItem("currTodoID"); 
+
+
+        } else {
+
+            //make this the active tab
+
+            this.createProject("My First Project!");
+        }
     }
 
     deleteStorage() {
