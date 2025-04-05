@@ -23,21 +23,29 @@ class ApplicationLogic {
     }
 
     deleteTodo(id) {
-        console.log(this._projects);
         this._projects[this._selectedProjectID].removeTodoByID(id);
-        console.log(this._projects);
+    }
+
+    editTodo(id, title, description, priority, dueDate, checked) {
+        this._projects[this._selectedProjectID].editTodoByID(id, title, description, priority, dueDate, checked);
     }
 
     todoHandlers() {
         //edit, delete, toggle 
-        return { delete: this.deleteTodo.bind(this) };
+        return { delete: this.deleteTodo.bind(this),
+                 edit: this.editTodo.bind(this), };
     }
 
-    formSetUp(form, submitButton) {
+    formSetUp(form, submitButton, modalIsAdding, editID) {
         const formData = Object.fromEntries(new FormData(form, submitButton));
 
-        let { title, description, date, priority } = formData; 
-        this.createTodo(title, description, priority, date, false);
+        let { title, description, date, priority, checked } = formData; 
+
+        if (modalIsAdding) {
+            this.createTodo(title, description, priority, date, false);
+        } else {
+            this.editTodo(editID, title, description, priority, date, checked);
+        }
     }
 
     createProject(name) {

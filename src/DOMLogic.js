@@ -1,7 +1,8 @@
 class DOMLogic {
 
     constructor() {
-
+        this._modalIsAdding = true; 
+        this._editID = -1; 
     }
 
     renderSidebar(projects, getProjectID, setProjectID, todoHandlers) {
@@ -35,7 +36,6 @@ class DOMLogic {
     }
 
     renderContent(project, todoHandlers) {
-
         const projTitle = document.querySelector("#proj-title");
         projTitle.innerHTML = project.name;
 
@@ -65,6 +65,13 @@ class DOMLogic {
         editButton.classList = "edit";
         editButton.classList.add("material-symbols-outlined");
         editButton.innerHTML = "edit";
+        editButton.addEventListener("click", (e) => {
+            const dialog = document.querySelector("#todoDialog");
+            document.querySelector("input#title").value = todo.title;
+            this._modalIsAdding = false; 
+            this._editID = todo.id; 
+            dialog.showModal();
+        })
         todoCreated.appendChild(editButton);
         
         const delButton = document.createElement("button");
@@ -82,25 +89,29 @@ class DOMLogic {
         return todoCreated; 
     }
 
-    setUpTodoButton(formSetUp, currentProjectID, todoHandlers) {
+    setUpTodoButton(formSetUp, getCurrentProject, todoHandlers) {
         const dialog = document.querySelector("#todoDialog");
         const todoButton = document.querySelector("#add");
         const submitButton = document.querySelector("#form-confirm");
         const cancelButton = document.querySelector("#form-cancel");
         const form = document.querySelector(".add-form");
 
-        todoButton.addEventListener("click", e => dialog.showModal());
+        todoButton.addEventListener("click", e => {
+            dialog.showModal();
+            this._modalIsAdding = true; 
+        });
         cancelButton.addEventListener("click", e => {
             e.preventDefault(); 
             dialog.close(); 
         });
         submitButton.addEventListener("click", e => {
             e.preventDefault();
-            formSetUp(form, submitButton); 
-            dialog.close();
-            this.renderContent(currentProjectID(), todoHandlers);
+            formSetUp(form, submitButton, this._modalIsAdding, this._editID); 
+            dialog.close(); 
+            this.renderContent(getCurrentProject(), todoHandlers);
         });
     } 
+
 
     setUpProjectButton(handleAddProject, projects, getProjectID, setProjectID, todoHandlers) {
         const projButton = document.querySelector("#project-button");

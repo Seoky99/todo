@@ -25,6 +25,15 @@ class Project {
     removeTodoByID(id) {
         this._todoList = this._todoList.filter(elt => id !== elt.id);
     }
+
+    editTodoByID(id, title, description, priority, dueDate, checked) {
+        let foundTodo = this._todoList.find(x => x.id === id);
+        foundTodo.title = title; 
+        foundTodo.description = description; 
+        foundTodo.priority = priority; 
+        foundTodo.dueDate = dueDate; 
+        foundTodo.checked = checked; 
+    }
 }
 
 export default Project;
