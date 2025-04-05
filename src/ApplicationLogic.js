@@ -20,14 +20,17 @@ class ApplicationLogic {
         this._currTodoID++; 
 
         this._projects[this._selectedProjectID].addTodo(todo);
+        this.storeToStorage(); 
     }
 
     deleteTodo(id) {
         this._projects[this._selectedProjectID].removeTodoByID(id);
+        this.storeToStorage(); 
     }
 
     editTodo(id, title, description, priority, dueDate, checked) {
         this._projects[this._selectedProjectID].editTodoByID(id, title, description, priority, dueDate, checked);
+        this.storeToStorage(); 
     }
 
     todoHandlers() {
@@ -52,6 +55,7 @@ class ApplicationLogic {
         let proj = new Project(this._currProjectID, name); 
         this._projects[this._currProjectID] = proj;
         this._currProjectID++;  
+        this.storeToStorage(); 
     }
 
     getCurrentProject() {

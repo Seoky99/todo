@@ -26,20 +26,22 @@
 
     </div>
     <div class="main-content">
-        <h1 id="proj-title"></h1>
-        <div id="sorting-row">
-            <h1>Sort me!</h1>
-            <button id="add">ADD TODO</button>
+        <div class="main-header">
+            <h1 id="proj-title"></h1>
+            <h1>Sort by...</h1>
+            <button id="add">Add a Todo!</button>
             <dialog id="todoDialog">
                 <form class="add-form">
                     <label for="title"> Name: </label>
                     <input type="text" name="title" id="title"></input>
                     <label for="description"> Description:</label>
-                    <input type="text" name="description"id="description"></input>
+                    <input required type="text" name="description"id="description"></input>
                     <label for="date">Date:</label>
-                    <input type="date" name="date" id="date"></input>
+                    <input required type="date" name="date" id="date"></input>
                     
                     <div>
+                        <label for="priority">Priority:</label>
+
                         <input type="radio" name="priority" value="low" id="low"></input>
                         <label for="low">Low</label>
 
@@ -50,7 +52,7 @@
                         <label for="high">High</label>
                     </div>
                     
-                    <div>
+                    <div class="button-container">
                         <button type="submit" id="form-cancel">Cancel</button>
                         <button type="submit" id="form-confirm">Confirm</button>
                     </div>

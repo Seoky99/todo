@@ -16,8 +16,8 @@ dom.renderContent(app.projects[0], app.todoHandlers.bind(app));
 console.log(app.todoHandlers());
 
 const store = document.querySelector("#store");
-store.addEventListener("click", (e) => {
+/*store.addEventListener("click", (e) => {
     app.storeToStorage();
-});
+}); */
 
 document.querySelector("#delete").addEventListener("click", (e) => app.deleteStorage());

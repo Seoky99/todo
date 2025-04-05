@@ -5,26 +5,30 @@
 
 body {
     height: 100vh;
-    background-color: black;
     display: grid;
+    background-color: lightgrey;
     grid-template: 1fr 4fr / 1fr 4fr;
 }
 
 .header {
     grid-column: 1/-1;
     grid-row: 1/2;
-    background-color: red;
+
+    & h1 {
+        padding: 20px;
+        margin-top: 4%;
+
+    }
 }
 
 .sidebar {
     grid-row: 2/-1;
-    background-color: blue;
+    background-color: coral;
 }
 
 .project-container {
     display: flex;
     flex-direction: column;
-    background-color: black;
     padding: 10px;
     gap: 20px;
 }
@@ -57,9 +61,22 @@ dialog::backdrop {
     }
 }
 
+.main-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#proj-title {
+    width: 50%;
+    flex-basis: auto;
+}
+
 .main-content {
     padding: 5%;
-    background-color: purple;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    background-color: peachpuff;
 }   
 
 #content-box {
@@ -75,8 +92,8 @@ dialog::backdrop {
     gap: 20px;
     padding: 5px;
     align-items: center;
-
-    background-color: red;
+    border-radius: 5px;
+    background-color: #fff;
 
     & .name {
         font-size: 30px;
@@ -102,6 +119,10 @@ dialog::backdrop {
     &.low {
         border-left: 30px solid green;
     }
+
+    &:hover {
+        opacity: 90%;
+    }
 }
 
 .add-form {
@@ -109,9 +130,18 @@ dialog::backdrop {
     flex-direction: column;
     width: 300px;
     justify-content: center;
+    gap: 5px;
+
+    & input {
+        padding: 5px;
+    }
 }
 
 .proj-form {
-    background-color: red;
+    margin-top: auto;
     padding: 5px;
+}
+
+.button-container {
+    margin-left: auto;
 }
